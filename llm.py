@@ -111,14 +111,14 @@ if __name__ == '__main__':
     if st.session_state.process_complete:
         user_input = st.chat_input('Ask Your Question') 
     
-    with st.container():
-        with st.spinner("Thinking"):
-            if user_input:
-                response, thread_id = get_response(user_input, thread_id)
-                st.session_state.chat_history.append({"role": "user", "content": user_input})
-                st.session_state.chat_history.append({"role": "assistant", "content": response})
-            for i, messages in enumerate(st.session_state.chat_history):
-                if messages['role'] == 'user':
-                    message(messages['content'], is_user=True, key=str(i),is_table=True)
-                else:
-                    message(messages['content'], key=str(i),is_table=True)
+        with st.container():
+            with st.spinner("Thinking"):
+                if user_input:
+                    response, thread_id = get_response(user_input, thread_id)
+                    st.session_state.chat_history.append({"role": "user", "content": user_input})
+                    st.session_state.chat_history.append({"role": "assistant", "content": response})
+                for i, messages in enumerate(st.session_state.chat_history):
+                    if messages['role'] == 'user':
+                        message(messages['content'], is_user=True, key=str(i),is_table=True)
+                    else:
+                        message(messages['content'], key=str(i),is_table=True)
