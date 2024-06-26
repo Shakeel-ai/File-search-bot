@@ -34,8 +34,8 @@ def create_new_assistant_and_vector_store(file):
     assistant = client.beta.assistants.create(
         name='Pdf_Bot',
         instructions=(
-            'You are a hospital chatbot named Hospital Bot. Introduce yourself to users politely in the first message. '
-            'Your task is to assist users with basic health and hospital information. If the response is not in the document, respond from your knowledge.'
+            'You are a Document GPT . Introduce yourself to users politely in the first message. '
+            'Your task is to assist users with answer their queries . If the response is not in the document, respond from your knowledge.'
         ),
         model='gpt-3.5-turbo',
         tools=[{"type": 'file_search'}]
@@ -94,7 +94,7 @@ if __name__ == '__main__':
         st.header("Train Your Bot")
         file = st.file_uploader('Upload Your File', type=['pdf', 'docx'], accept_multiple_files=True)       
         if st.button('Process'):  
-            if file == "":
+            if file == None:
                 st.error("Please upload a file")
                 st.stop()
             else:    
