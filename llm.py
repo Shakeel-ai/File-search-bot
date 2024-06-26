@@ -31,32 +31,34 @@ def save_ids(assistant_id, vector_store_id):
         json.dump({"assistant_id": assistant_id, "vector_store_id": vector_store_id}, f)
 
 def create_new_assistant_and_vector_store(file):
-    assistant = client.beta.assistants.create(
-        name='Pdf_Bot',
-        instructions=(
-            'You are a Document GPT . Introduce yourself to users politely in the first message. '
-            'Your task is to assist users with answer their queries . If the response is not in the document, respond from your knowledge.'
-        ),
-        model='gpt-3.5-turbo',
-        tools=[{"type": 'file_search'}]
-    )
-    assistant_id = assistant.id
-    
-    vector_store = client.beta.vector_stores.create()
-    vector_store_id = vector_store.id
+    try:
+        assistant = client.beta.assistants.create(
+            name='Pdf_Bot',
+            instructions=(
+                'You are a Document GPT . Introduce yourself to users politely in the first message. '
+                'Your task is to assist users with answer their queries . If the response is not in the document, respond from your knowledge.'
+            ),
+            model='gpt-3.5-turbo',
+            tools=[{"type": 'file_search'}]
+        )
+        assistant_id = assistant.id
+        
+        vector_store = client.beta.vector_stores.create()
+        vector_store_id = vector_store.id
 
-    client.beta.vector_stores.file_batches.upload_and_poll(
-        vector_store_id=vector_store_id, files=file
-    )
+        client.beta.vector_stores.file_batches.upload_and_poll(
+            vector_store_id=vector_store_id, files=file
+        )
 
-    client.beta.assistants.update(
-        assistant_id=assistant_id, 
-        tool_resources={'file_search': {'vector_store_ids': [vector_store_id]}}
-    )
+        client.beta.assistants.update(
+            assistant_id=assistant_id, 
+            tool_resources={'file_search': {'vector_store_ids': [vector_store_id]}}
+        )
 
-    save_ids(assistant_id, vector_store_id)
-    return assistant_id, vector_store_id
-
+        save_ids(assistant_id, vector_store_id)
+        return assistant_id, vector_store_id             
+    except Exception as e:
+        return f"Error: {e}"
 def get_response(user_input, thread_id):
     try:
         data = load_ids()
