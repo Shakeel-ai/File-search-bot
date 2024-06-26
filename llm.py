@@ -94,7 +94,7 @@ if __name__ == '__main__':
         st.header("Train Your Bot")
         file = st.file_uploader('Upload Your File', type=['pdf', 'docx'], accept_multiple_files=True)       
         if st.button('Process'):  
-            if file == None:
+            if file is None:
                 st.error("Please upload a file")
                 st.stop()
             else:    
