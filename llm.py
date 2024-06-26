@@ -78,9 +78,9 @@ def get_response(user_input, thread_id):
         message_content = messages[0].content[0].text.value  # Directly access the value attribute
         response = message_content
     except Exception as e:
-        return f"Error: {e}", thread_id
+        return f"Error: {e}"
     
-    return response, thread_id
+    return response
 
 if __name__ == '__main__':
     if 'thread_id' not in st.session_state:
