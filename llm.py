@@ -93,10 +93,14 @@ if __name__ == '__main__':
     with st.sidebar:
         st.header("Train Your Bot")
         file = st.file_uploader('Upload Your File', type=['pdf', 'docx'], accept_multiple_files=True)       
-        if st.button('Process'):   
-            assistant_id, vector_store_id = create_new_assistant_and_vector_store(file)
-            st.session_state.process_complete = True
-            st.success("Training completed successfully.")
+        if st.button('Process'):  
+            if file == "":
+                st.error("Please upload a file")
+                st.stop()
+            else:    
+                assistant_id, vector_store_id = create_new_assistant_and_vector_store(file)
+                st.session_state.process_complete = True
+                st.success("Training completed successfully.")
         st.header("If Alraedy Train")    
         if st.button('Start'):
             st.session_state.process_complete = True
